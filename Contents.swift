@@ -204,9 +204,9 @@ func processCommand(_ command: UserCommand) -> String {
         assertUnreachableCode()
     }
 }
-
-print(processCommand(.start))
-print(processCommand(.unknown))
+//
+//print(processCommand(.start))
+//print(processCommand(.unknown))
 
 // Функция fatalError используется для указания на фатальные ошибки в коде, и её вызов вызывает краш приложения, потому что программа не должна продолжать своё выполнение после этого. Это полезно в ситуациях, когда достигается участок кода, который по логике программы не должен быть достигнут.
 
@@ -242,4 +242,60 @@ func produceHighQualityCustomizedBall(
         baseEquipment: SoccerBall()
     )
     return CustomizedEquipment(baseEquipment: qualityCheckedBall)
+}
+
+
+struct Coordinate: CustomStringConvertible {
+    
+    var latitude: Double
+    var longitude: Double
+    
+    var description: String {
+        let latDirection = latitude >= 0 ? "N" : "S"
+        let lonDirection = longitude >= 0 ? "E" : "W"
+        
+        return " Coordinates: \(abs(latitude))°\(latDirection),  \(abs(longitude))°\(lonDirection) "
+    }
+}
+
+let location = Coordinate(latitude: 37.499, longitude: -122.4194)
+print(location)
+
+struct Temperature: ExpressibleByIntegerLiteral {
+    var celsius: Double
+    
+    init(integerLiteral value: Int) {
+        self.celsius = Double(value)
+    }
+}
+
+let currentTemperatire: Temperature = 23
+
+struct Person {
+    var name: String
+    var age: Int
+}
+
+extension Person {
+    init(name: String, birthYear: Int) {
+        let currentYear = Calendar.current
+            .component(.year, from: Date())
+        self.init(name: name, age: currentYear - birthYear)
+    }
+}
+
+let person1 = Person(name: "Bob", age: 1990)
+let person3 = Person(name: "Charlie", birthYear: 25)
+
+struct Identifier: RawRepresentable {
+    var rawValue: String
+    
+    init?(rawValue: String) {
+        guard !rawValue.isEmpty, rawValue.allSatisfy(
+            { $0.isLetter || $0.isNumber || $0 == "-" }
+        ) else {
+            return nil
+        }
+        self.rawValue = rawValue
+    }
 }
